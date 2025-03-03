@@ -40,14 +40,14 @@
 
     
     .glitch-pudu::before {
-      filter: drop-shadow(2px 0px 0px red);
-      animation: shiftRed 0.3s infinite;
+      filter: drop-shadow(5px 0px 0px red);
+      animation: shiftRed 0.1s infinite;
     }
 
     
     .glitch-pudu::after {
-      filter: drop-shadow(-2px 0px 0px cyan);
-      animation: shiftCyan 0.3s infinite;
+      filter: drop-shadow(-5px 0px 0px blue);
+      animation: shiftBlue 0.3s infinite;
     }
 
     
@@ -75,17 +75,17 @@
         transform: translate(0, 0);
       }
       50% {
-        transform: translate(2px, 0);
+        transform: translate(5px, 0);
       }
     }
 
     
-    @keyframes shiftCyan {
+    @keyframes shiftBlue {
       0%, 100% {
         transform: translate(0, 0);
       }
       50% {
-        transform: translate(-2px, 0);
+        transform: translate(-5px, 0);
       }
     }
   </style>
