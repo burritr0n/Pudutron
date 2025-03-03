@@ -13,7 +13,7 @@
             align-items: center;
             height: 100vh;
             background-color: #fff;
-            color: #000;
+            color: #092438;
             font-family: Courier, monospace;
             overflow: hidden;
         }
@@ -21,8 +21,8 @@
         .glitch {
             font-size: 4em;
             position: relative;
-            color: #000;
-            animation: glitch 0.5s infinite;
+            color: #092438;
+            animation: glitch 0.1s infinite;
         }
 
         .glitch::before,
@@ -40,13 +40,13 @@
         .glitch::before {
             left: 2px;
             text-shadow: -2px 0 red;
-            animation: glitchTop 0.5s infinite;
+            animation: glitchTop 0.1s infinite;
         }
 
         .glitch::after {
             left: -2px;
             text-shadow: -2px 0 blue;
-            animation: glitchBottom 0.5s infinite;
+            animation: glitchBottom 0.1s infinite;
         }
 
         @keyframes glitch {
@@ -87,7 +87,7 @@
             color: #000;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.05s, color 0.05s;
         }
 
         .random-button:hover {
@@ -98,7 +98,7 @@
 </head>
 <body background="./img/pudu.png">
     <div class="content">
-        <div class="glitch">PUDUTOPIA</div>
+        <div class="glitch"><B>PUDUTOPIA</B></div>
     </div>
 </body>
 </html>
