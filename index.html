@@ -1,96 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Pudú</title>
-  <style>
-    
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh; 
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pudutopia</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
 
+        .glitch {
+            font-size: 5em;
+            position: relative;
+            color: #fff;
+            animation: glitch 1s infinite;
+        }
 
-    .glitch-pudu {
-      position: relative;
-      width: 300px;   
-      height: 480px;  
-      background: url("./img/pudu.png") center/cover no-repeat;
-      animation: shake 0.3s infinite;
-    }
+        .glitch::before,
+        .glitch::after {
+            content: 'Pudutopia';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+            clip: rect(0, 900px, 0, 0);
+        }
 
-    
-    .glitch-pudu::before,
-    .glitch-pudu::after {
-      content: "";
-      position: absolute;
-      top: 0; 
-      left: 0;
-      width: 100%; 
-      height: 100%;
-      background: url("./img/pudu.png") center/cover no-repeat;
-      mix-blend-mode: screen;
-      pointer-events: none; 
-    }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 red;
+            animation: glitchTop 1s infinite;
+        }
 
-    
-    .glitch-pudu::before {
-      filter: drop-shadow(5px 0px 0px red);
-      animation: shiftRed 0.1s infinite;
-    }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 blue;
+            animation: glitchBottom 1s infinite;
+        }
 
-    
-    .glitch-pudu::after {
-      filter: drop-shadow(-5px 0px 0px blue);
-      animation: shiftBlue 0.3s infinite;
-    }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
 
-    
-    @keyframes shake {
-      0%, 100% {
-        transform: translate(0, 0);
-      }
-      20% {
-        transform: translate(-3px, 2px);
-      }
-      40% {
-        transform: translate(3px, -2px);
-      }
-      60% {
-        transform: translate(-3px, 2px);
-      }
-      80% {
-        transform: translate(3px, -2px);
-      }
-    }
+        @keyframes glitchTop {
+            0% { clip: rect(0, 900px, 0, 0); }
+            20% { clip: rect(0, 900px, 0, 0); }
+            40% { clip: rect(10px, 900px, 30px, 0); }
+            60% { clip: rect(0, 900px, 0, 0); }
+            80% { clip: rect(20px, 900px, 40px, 0); }
+            100% { clip: rect(0, 900px, 0, 0); }
+        }
 
-    
-    @keyframes shiftRed {
-      0%, 100% {
-        transform: translate(0, 0);
-      }
-      50% {
-        transform: translate(5px, 0);
-      }
-    }
+        @keyframes glitchBottom {
+            0% { clip: rect(0, 900px, 0, 0); }
+            20% { clip: rect(0, 900px, 0, 0); }
+            40% { clip: rect(60px, 900px, 90px, 0); }
+            60% { clip: rect(0, 900px, 0, 0); }
+            80% { clip: rect(80px, 900px, 100px, 0); }
+            100% { clip: rect(0, 900px, 0, 0); }
+        }
 
-    
-    @keyframes shiftBlue {
-      0%, 100% {
-        transform: translate(0, 0);
-      }
-      50% {
-        transform: translate(-5px, 0);
-      }
-    }
-  </style>
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .random-button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .random-button:hover {
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-  <div class="glitch-pudu"></div>
+    <div class="content">
+        <div class="glitch">Pudutopia</div>
+        <div class="button-container">
+            <img src="./img/pudu.png" alt="Pudú">
+        </div>
+    </div>
 </body>
 </html>
