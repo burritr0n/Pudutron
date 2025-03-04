@@ -25,19 +25,22 @@
 
 
 <body>
-  <canvas id="networkCanvas"></canvas>
+  <canvas id="PuduCanvas"></canvas>
 
   <img src="img/pud1.png" id="pud1">
   <img src="img/pud2.png" id="pud2">
   <img src="img/pud3.png" id="pud3">
   <img src="img/pud4.png" id="pud4">
+  <img src="img/ovrlay.png" id="ovrlay">
 
   <script>
-    const canvas = document.getElementById('networkCanvas');
+    const canvas = document.getElementById('PuduCanvas');
+
     const puduimg1 = document.getElementById('pud1');
     const puduimg2 = document.getElementById('pud2');
     const puduimg3 = document.getElementById('pud3');
     const puduimg4 = document.getElementById('pud4');
+    const overlay = document.getElementById('ovrlay');
     const ctx = canvas.getContext('2d');
 
     // Set canvas dimensions to match the window
@@ -50,20 +53,25 @@
     });
 
 
-    const numNodes1 = 70;          // Número de pudúes de perfil
-    const numNodes2 = 110;         // Número de pudúes con flores
-    const numNodes3 = 50;          // Número de posters de pudúes
+    const numNodes1 = 80;          // Número de pudúes de perfil
+    const numNodes2 = 20;         // Número de pudúes con flores
+    const numNodes3 = 60;          // Número de posters de pudúes
     const numNodes4 = 80;          // Número de pudúes acurrucados
 
     const imgSize = 90;            // Tamaño de los pudúes.
+    const distanciademouse = 1.1   // Distancia para alejarse del mouse, en pudúes
     
-    const maxDistance = imgSize;   // Distancia para alejarse del mouse
     const deCeletation = 0.01      // Factor de desaceleración.
-    const velfact = 0.02           // Velocidad de alejamiento del mouse
-    const randfact = 5.5           // Factor aleatorio en dirección de alejamiento
+    const velfact = 0.01           // Velocidad de alejamiento del mouse
+    const randfact = 0.35           // Factor aleatorio en dirección de alejamiento de mouse
 
+    const maxvarrand = 0.3       // máxima variación aleatoria en dirección
+    const randofacto = 0.7       // variación aleatoria en dirección   
+
+    const maxDistance = imgSize * distanciademouse;
     const numNodes = numNodes1 + numNodes2 + numNodes3 + numNodes4
     const nodes = [];
+
 
     // Create nodes with random positions and velocities
     for (let i = 0; i < numNodes; i++) {
@@ -72,7 +80,6 @@
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 1, // horizontal velocity
         vy: (Math.random() - 0.5) * 1, // vertical velocity
-        radius: 2
       });
     }
 
@@ -84,65 +91,58 @@
       mouse.y = event.clientY;
     });
 
-    // Main animation loop
+
     function animate() {
       ctx.clearRect(0, 0, width, height);
       
-      // Update and draw each node
+
 
 
       for (let i = 0; i < numNodes; i++) {
         const node = nodes[i];
 
-        node.vx *= (1.0 - deCeletation)
-        node.vy *= (1.0 - deCeletation)
-
+        // Moverse
         node.x += node.vx;
         node.y += node.vy;
 
+        // Desacelerar
+        node.vx *= (1.0 - deCeletation)
+        node.vy *= (1.0 - deCeletation)
 
-
+        // Rebotar contra paredes
+        if (node.x < 0 || node.x > width) node.vx *= -0.95;
+        if (node.y < 0 || node.y > height) node.vy *= -0.95;  
+        
         // Qué pudú dibujar
         puduimg = puduimg4;
         if (i <= numNodes1 + numNodes2 + numNodes3)  puduimg = puduimg3;
         if (i <= numNodes1 + numNodes2)  puduimg = puduimg2;
         if (i <= numNodes1)  puduimg = puduimg1;
 
-        // Rebotar contra paredes
-        if (node.x < 0 || node.x > width) node.vx *= -0.95;
-        if (node.y < 0 || node.y > height) node.vy *= -0.95;
-
-        ctx.drawImage(puduimg, node.x - (imgSize / 2), node.y - (imgSize / 2), imgSize, imgSize)
-      }
-
-      // Optionally, connect nodes to the mouse position if they’re close enough
-      for (let i = 0; i < numNodes; i++) {
-        const node = nodes[i];
+        
+        //Alejarse del mouse
         const dx = node.x - mouse.x;
         const dy = node.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-
         if (distance < maxDistance) {
           node.vx += (velfact * dx) + (((Math.random() - 0.5) * randfact) * 1)
           node.vy += (velfact * dy) + (((Math.random() - 0.5) * randfact) * 1)
-
-          
-          ctx.stroke();
         }
-      }
 
+        
+        const minvarrand = -1.0 * maxvarrand
+        
 
-      for (let i = 0; i < numNodes; i++) {
-        const node = nodes[i];
-        const minvar = -0.55
-        const maxvar = -1.0 * minvar
-        const randofacto = 0.55
+        node.vx += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)
+        node.vy += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)
 
-        node.vx += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvar),maxvar)
-        node.vy += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvar),maxvar)
+        // Dibujar el pudú
+        ctx.drawImage(puduimg, node.x - (imgSize / 2), node.y - (imgSize / 2), imgSize, imgSize)
+        
       }
 
       requestAnimationFrame(animate);
+      ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height)
     }
 
     animate();
