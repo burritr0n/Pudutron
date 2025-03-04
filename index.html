@@ -49,20 +49,20 @@
       height = canvas.height = window.innerHeight;
     });
 
-    // Configuration lol
-    const numNodes1 = 70;         // Number of floating nodes
-    const numNodes2 = 110;         // Number of floating nodes
-    const numNodes3 = 50;         // Number of floating nodes
-    const numNodes4 = 80;         // Number of floating nodes 
+
+    const numNodes1 = 70;          // Número de pudúes de perfil
+    const numNodes2 = 110;         // Número de pudúes con flores
+    const numNodes3 = 50;          // Número de posters de pudúes
+    const numNodes4 = 80;          // Número de pudúes acurrucados
+
+    const imgSize = 90;            // Tamaño de los pudúes.
+    
+    const maxDistance = imgSize;   // Distancia para alejarse del mouse
+    const deCeletation = 0.01      // Factor de desaceleración.
+    const velfact = 0.02           // Velocidad de alejamiento del mouse
+    const randfact = 5.5           // Factor aleatorio en dirección de alejamiento
+
     const numNodes = numNodes1 + numNodes2 + numNodes3 + numNodes4
-
-
-    const imgSize = 90;          // Wat
-    const maxDistance = imgSize;       // Maximum distance to draw a connection
-
-    const deCeletation = 0.01
-
-
     const nodes = [];
 
     // Create nodes with random positions and velocities
@@ -102,38 +102,17 @@
 
 
 
-        
+        // Qué pudú dibujar
         puduimg = puduimg4;
         if (i <= numNodes1 + numNodes2 + numNodes3)  puduimg = puduimg3;
         if (i <= numNodes1 + numNodes2)  puduimg = puduimg2;
         if (i <= numNodes1)  puduimg = puduimg1;
 
-        // Bounce off canvas edges
+        // Rebotar contra paredes
         if (node.x < 0 || node.x > width) node.vx *= -0.95;
         if (node.y < 0 || node.y > height) node.vy *= -0.95;
 
-        // Draw the node as a small circle
-        // ctx.beginPath();
-        //ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
         ctx.drawImage(puduimg, node.x - (imgSize / 2), node.y - (imgSize / 2), imgSize, imgSize)
-        //ctx.fillStyle = '#ff0000';
-        //ctx.fill();
-
-        // Draw lines between this node and others if they’re close enough
-
-        for (let j = i + 1; j < numNodes; j++) {
-          const other = nodes[j];
-          const dx = node.x - other.x;
-          const dy = node.y - other.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-        //  if (distance < maxDistance) {
-        //    ctx.beginPath();
-        //    ctx.moveTo(node.x, node.y);
-        //    ctx.lineTo(other.x, other.y);
-        //    ctx.strokeStyle = 'rgba(255, 255, 255, ' + (1 - distance / maxDistance) + ')';
-        //    ctx.stroke();
-        //  }
-        }
       }
 
       // Optionally, connect nodes to the mouse position if they’re close enough
@@ -142,17 +121,12 @@
         const dx = node.x - mouse.x;
         const dy = node.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const velfact = 0.02
-        const randfact = 0.5
-
 
         if (distance < maxDistance) {
           node.vx += (velfact * dx) + (((Math.random() - 0.5) * randfact) * 1)
           node.vy += (velfact * dy) + (((Math.random() - 0.5) * randfact) * 1)
-            //ctx.bewginPath();
-          //ctx.moveTo(node.x, node.y);
-          //ctx.lineTo(mouse.x, mouse.y);
-          //ctx.strokeStyle = 'rgba(255, 255, 255, ' + (1 - distance / maxDistance) + ')';
+
+          
           ctx.stroke();
         }
       }
