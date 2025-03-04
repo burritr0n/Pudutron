@@ -115,7 +115,7 @@
         // Draw the node as a small circle
         // ctx.beginPath();
         //ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.drawImage(puduimg,node.x - (imgSize / 2) ,node.y - (imgSize / 2) ,imgSize,imgSize)
+        ctx.drawImage(puduimg, node.x - (imgSize / 2), node.y - (imgSize / 2), imgSize, imgSize)
         //ctx.fillStyle = '#ff0000';
         //ctx.fill();
 
@@ -147,8 +147,8 @@
 
 
         if (distance < maxDistance) {
-          node.vx += (velfact * dx) + (((Math.random() - 0.5) * 1)*randfact)
-          node.vy += (velfact * dy) + (((Math.random() - 0.5) * 1)*randfact)
+          node.vx += (velfact * dx) + (((Math.random() - 0.5) * randfact) * 1)
+          node.vy += (velfact * dy) + (((Math.random() - 0.5) * randfact) * 1)
             //ctx.bewginPath();
           //ctx.moveTo(node.x, node.y);
           //ctx.lineTo(mouse.x, mouse.y);
