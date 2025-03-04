@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 
 <style>
+
   body, html {
     margin: 0px;
     padding: 0px;
     overflow: hidden;
+    font-family: 'Rocher';
     background-image: url("img/bosque.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed; 
     background-size: 100% 100%;
   }
+
   canvas {
     display: block;
   }
+  
+
 </style>
 
 
 <head>
   <meta charset="UTF-8">
-  <title>PUDUTOPIA</title>
+  <title>Pudutopía</title>
+  <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 </head>
 
 
 <body>
   <canvas id="PuduCanvas"></canvas>
-
   <img src="img/pud1.png" id="pud1">
   <img src="img/pud2.png" id="pud2">
   <img src="img/pud3.png" id="pud3">
   <img src="img/pud4.png" id="pud4">
   <img src="img/ovrlay.png" id="ovrlay">
+  <img src="img/pudutopia.png" id="pudutopia">
 
   <script>
     const canvas = document.getElementById('PuduCanvas');
@@ -41,9 +47,10 @@
     const puduimg3 = document.getElementById('pud3');
     const puduimg4 = document.getElementById('pud4');
     const overlay = document.getElementById('ovrlay');
+    const pudutopia = document.getElementById('pudutopia');
     const ctx = canvas.getContext('2d');
 
-    // Set canvas dimensions to match the window
+    // Ancho y altura de la pudutopía
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
@@ -52,38 +59,42 @@
       height = canvas.height = window.innerHeight;
     });
 
+    const numpudus1 = 50;          // Número de pudúes de perfil
+    const numpudus2 = 40;         // Número de pudúes con flores
+    const numpudus3 = 50;          // Número de posters de pudúes
+    const numpudus4 = 60;          // Número de pudúes acurrucados
 
-    const numNodes1 = 80;          // Número de pudúes de perfil
-    const numNodes2 = 20;         // Número de pudúes con flores
-    const numNodes3 = 60;          // Número de posters de pudúes
-    const numNodes4 = 80;          // Número de pudúes acurrucados
-
-    const imgSize = 90;            // Tamaño de los pudúes.
-    const distanciademouse = 1.1   // Distancia para alejarse del mouse, en pudúes
+    const imgSize = 95;            // Tamaño de los pudúes.
+    const tamanobanner = 1.5          // Altura del banner, en pudúes
+    const distanciademouse = 0.95   // Distancia para alejarse del mouse, en pudúes
     
-    const deCeletation = 0.01      // Factor de desaceleración.
-    const velfact = 0.01           // Velocidad de alejamiento del mouse
-    const randfact = 0.35           // Factor aleatorio en dirección de alejamiento de mouse
+    const deCeletation = 0.008      // Factor de desaceleración.
+    const velfact = 0.02           // Velocidad de alejamiento del mouse
 
-    const maxvarrand = 0.3       // máxima variación aleatoria en dirección
-    const randofacto = 0.7       // variación aleatoria en dirección   
+    const maxvarrand = 1.1       // máxima variación aleatoria en dirección
+    const randofacto = 1.1       // variación aleatoria en dirección 
+    
+    
 
     const maxDistance = imgSize * distanciademouse;
-    const numNodes = numNodes1 + numNodes2 + numNodes3 + numNodes4
-    const nodes = [];
+    const numpudus = numpudus1 + numpudus2 + numpudus3 + numpudus4
+    const alturabanner = imgSize * tamanobanner
+    const anchobanner = alturabanner * 3.5
+    const pudus = [];
 
 
-    // Create nodes with random positions and velocities
-    for (let i = 0; i < numNodes; i++) {
-      nodes.push({
+
+    // Crear cada pudú
+    for (let i = 0; i < numpudus; i++) {
+      pudus.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 1, // horizontal velocity
-        vy: (Math.random() - 0.5) * 1, // vertical velocity
+        vx: (Math.random() - 0.5) * 1, 
+        vy: (Math.random() - 0.5) * 1, 
       });
     }
 
-    // Mouse position (used to draw extra connections)
+    // Posición del mouse
     const mouse = { x: width / 2, y: height / 2 };
 
     canvas.addEventListener('mousemove', (event) => {
@@ -95,59 +106,57 @@
     function animate() {
       ctx.clearRect(0, 0, width, height);
       
+      for (let i = 0; i < numpudus; i++) {
+        const pudu = pudus[i];
 
-
-
-      for (let i = 0; i < numNodes; i++) {
-        const node = nodes[i];
-
-        // Moverse
-        node.x += node.vx;
-        node.y += node.vy;
+        // Mover cada pudú
+        pudu.x += pudu.vx;
+        pudu.y += pudu.vy;
 
         // Desacelerar
-        node.vx *= (1.0 - deCeletation)
-        node.vy *= (1.0 - deCeletation)
+        pudu.vx *= (1.0 - deCeletation)
+        pudu.vy *= (1.0 - deCeletation)
 
         // Rebotar contra paredes
-        if (node.x < 0 || node.x > width) node.vx *= -0.95;
-        if (node.y < 0 || node.y > height) node.vy *= -0.95;  
+        if (pudu.x < 0 || pudu.x > width) pudu.vx *= -0.95;
+        if (pudu.y < 0 || pudu.y > height) pudu.vy *= -0.95;  
         
         // Qué pudú dibujar
         puduimg = puduimg4;
-        if (i <= numNodes1 + numNodes2 + numNodes3)  puduimg = puduimg3;
-        if (i <= numNodes1 + numNodes2)  puduimg = puduimg2;
-        if (i <= numNodes1)  puduimg = puduimg1;
+        if (i <= numpudus1 + numpudus2 + numpudus3)  puduimg = puduimg3;
+        if (i <= numpudus1 + numpudus2)  puduimg = puduimg2;
+        if (i <= numpudus1)  puduimg = puduimg1;
 
         
-        //Alejarse del mouse
-        const dx = node.x - mouse.x;
-        const dy = node.y - mouse.y;
+        // Alejarse del mouse
+        const dx = pudu.x - mouse.x;
+        const dy = pudu.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < maxDistance) {
-          node.vx += (velfact * dx) + (((Math.random() - 0.5) * randfact) * 1)
-          node.vy += (velfact * dy) + (((Math.random() - 0.5) * randfact) * 1)
+          pudu.vx += (velfact * dx)
+          pudu.vy += (velfact * dy)
         }
-
         
         const minvarrand = -1.0 * maxvarrand
         
+        pudu.vx += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)
+        pudu.vy += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)
 
-        node.vx += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)
-        node.vy += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)
-
-        // Dibujar el pudú
-        ctx.drawImage(puduimg, node.x - (imgSize / 2), node.y - (imgSize / 2), imgSize, imgSize)
-        
+        // Dibujar cada pudú
+        ctx.drawImage(puduimg, pudu.x - (imgSize / 2), pudu.y - (imgSize / 2), imgSize, imgSize)
       }
 
       requestAnimationFrame(animate);
+
+      // Dibujar overlay y banners
       ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height)
+      ctx.drawImage(pudutopia, (canvas.width - anchobanner)/2, (canvas.height - alturabanner)/2, anchobanner, alturabanner)
+
     }
 
     animate();
   </script>
 </body>
-
-
 </html>
+
+<!--- Gracias por visitar. Que el gran pudú te acompañe siempre. <3 -->
