@@ -17,7 +17,6 @@
   canvas {
     display: block;
   }
-  
 
 </style>
 
@@ -38,6 +37,8 @@
   <img src="img/pud5.png" id="pud5">
   <img src="img/pud6.png" id="pud6">
   <img src="img/pud7.png" id="pud7">
+  <img src="img/pud8.png" id="pud8">
+  <img src="img/pud9.png" id="pud9">
 
   <img src="img/ovrlay.png" id="ovrlay">
   <img src="img/pudutopia.png" id="pudutopia">
@@ -52,6 +53,8 @@
     const puduimg5 = document.getElementById('pud5')
     const puduimg6 = document.getElementById('pud6')
     const puduimg7 = document.getElementById('pud7')
+    const puduimg8 = document.getElementById('pud8')
+    const puduimg9 = document.getElementById('pud9')
 
     const overlay = document.getElementById('ovrlay')
     const pudutopia = document.getElementById('pudutopia')
@@ -72,7 +75,9 @@
     const numpudus4 = 15          // Número de pudúes acurrucados
     const numpudus5 = 5           // Número de pudúes dibujados
     const numpudus6 = 5           // Número de carteles de cruce de pudú
-    const numpudus7 = 15          // Número de pudúes parados
+    const numpudus7 = 15          // Número de pudúes parados de lado
+    const numpudus8 = 10          // Número de pudúes comiendo hojitas
+    const numpudus9 = 15          // Número de pudúes parados de frente
 
     const imgSize = 95             // Tamaño de los pudúes.
     const tamanobanner = 1.5       // Altura del banner, en pudúes
@@ -87,7 +92,7 @@
     
 
     const maxDistance = imgSize * distanciademouse
-    const numpudus = numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7
+    const numpudus = numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7 + numpudus8 + numpudus9
     const alturabanner = imgSize * tamanobanner
     const anchobanner = alturabanner * 3.5
     const pudus = []
@@ -132,7 +137,9 @@
         if (pudu.y < 0 || pudu.y > height) pudu.vy *= -0.95
         
         // Qué pudú dibujar
-        puduimg = puduimg7;
+        puduimg = puduimg9;
+        if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7 + numpudus8)  puduimg = puduimg8
+        if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7)  puduimg = puduimg7
         if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6)  puduimg = puduimg6
         if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5)  puduimg = puduimg5
         if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4)  puduimg = puduimg4
@@ -171,6 +178,7 @@
   </script>
 </body>
 </html>
+
 
 <!--- Este lugar no tiene propósito. No espero lograr nada fuera de a lo mejor sacarle una sonrisa a alguien.  -->
 <!--- Gracias por tomarte el tiempo de visitar y mirar esta tontera y mirar el código.                         -->
