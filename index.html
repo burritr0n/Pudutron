@@ -35,51 +35,62 @@
   <img src="img/pud2.png" id="pud2">
   <img src="img/pud3.png" id="pud3">
   <img src="img/pud4.png" id="pud4">
+  <img src="img/pud5.png" id="pud5">
+  <img src="img/pud6.png" id="pud6">
+  <img src="img/pud7.png" id="pud7">
+
   <img src="img/ovrlay.png" id="ovrlay">
   <img src="img/pudutopia.png" id="pudutopia">
 
   <script>
-    const canvas = document.getElementById('PuduCanvas');
+    const canvas = document.getElementById('PuduCanvas')
 
-    const puduimg1 = document.getElementById('pud1');
-    const puduimg2 = document.getElementById('pud2');
-    const puduimg3 = document.getElementById('pud3');
-    const puduimg4 = document.getElementById('pud4');
-    const overlay = document.getElementById('ovrlay');
-    const pudutopia = document.getElementById('pudutopia');
-    const ctx = canvas.getContext('2d');
+    const puduimg1 = document.getElementById('pud1')
+    const puduimg2 = document.getElementById('pud2')
+    const puduimg3 = document.getElementById('pud3')
+    const puduimg4 = document.getElementById('pud4')
+    const puduimg5 = document.getElementById('pud5')
+    const puduimg6 = document.getElementById('pud6')
+    const puduimg7 = document.getElementById('pud7')
+
+    const overlay = document.getElementById('ovrlay')
+    const pudutopia = document.getElementById('pudutopia')
+    const ctx = canvas.getContext('2d')
 
     // Ancho y altura de la pudutopía
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+    let width = canvas.width = window.innerWidth
+    let height = canvas.height = window.innerHeight
 
     window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      width = canvas.width = window.innerWidth
+      height = canvas.height = window.innerHeight
     });
 
-    const numpudus1 = 15;          // Número de pudúes de perfil
-    const numpudus2 = 10;         // Número de pudúes con flores
-    const numpudus3 = 5;          // Número de posters de pudúes
-    const numpudus4 = 10;          // Número de pudúes acurrucados
+    const numpudus1 = 15          // Número de pudúes de perfil
+    const numpudus2 = 12          // Número de pudúes con flores
+    const numpudus3 = 12          // Número de posters de pudúes
+    const numpudus4 = 15          // Número de pudúes acurrucados
+    const numpudus5 = 5           // Número de pudúes dibujados
+    const numpudus6 = 5           // Número de carteles de cruce de pudú
+    const numpudus7 = 15          // Número de pudúes parados
 
-    const imgSize = 95;            // Tamaño de los pudúes.
-    const tamanobanner = 1.5          // Altura del banner, en pudúes
-    const distanciademouse = 0.95   // Distancia para alejarse del mouse, en pudúes
+    const imgSize = 95             // Tamaño de los pudúes.
+    const tamanobanner = 1.5       // Altura del banner, en pudúes
+    const distanciademouse = 0.95  // Distancia para alejarse del mouse, en pudúes
     
-    const deCeletation = 0.008      // Factor de desaceleración.
-    const velfact = 0.02           // Velocidad de alejamiento del mouse
+    const deCeletation = 0.008    // Factor de desaceleración.
+    const velfact = 0.02          // Velocidad de alejamiento del mouse
 
-    const maxvarrand = 1.1       // máxima variación aleatoria en dirección
-    const randofacto = 1.1       // variación aleatoria en dirección 
+    const maxvarrand = 1.1        // máxima variación aleatoria en dirección
+    const randofacto = 1.1        // variación aleatoria en dirección 
     
     
 
-    const maxDistance = imgSize * distanciademouse;
-    const numpudus = numpudus1 + numpudus2 + numpudus3 + numpudus4
+    const maxDistance = imgSize * distanciademouse
+    const numpudus = numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7
     const alturabanner = imgSize * tamanobanner
     const anchobanner = alturabanner * 3.5
-    const pudus = [];
+    const pudus = []
 
 
 
@@ -106,31 +117,34 @@
       ctx.clearRect(0, 0, width, height);
       
       for (let i = 0; i < numpudus; i++) {
-        const pudu = pudus[i];
+        const pudu = pudus[i]
 
         // Mover cada pudú
-        pudu.x += pudu.vx;
-        pudu.y += pudu.vy;
+        pudu.x += pudu.vx
+        pudu.y += pudu.vy
 
         // Desacelerar
         pudu.vx *= (1.0 - deCeletation)
         pudu.vy *= (1.0 - deCeletation)
 
         // Rebotar contra paredes
-        if (pudu.x < 0 || pudu.x > width) pudu.vx *= -0.95;
-        if (pudu.y < 0 || pudu.y > height) pudu.vy *= -0.95;  
+        if (pudu.x < 0 || pudu.x > width) pudu.vx *= -0.95
+        if (pudu.y < 0 || pudu.y > height) pudu.vy *= -0.95
         
         // Qué pudú dibujar
-        puduimg = puduimg4;
-        if (i <= numpudus1 + numpudus2 + numpudus3)  puduimg = puduimg3;
-        if (i <= numpudus1 + numpudus2)  puduimg = puduimg2;
-        if (i <= numpudus1)  puduimg = puduimg1;
+        puduimg = puduimg7;
+        if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6)  puduimg = puduimg6
+        if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5)  puduimg = puduimg5
+        if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4)  puduimg = puduimg4
+        if (i <= numpudus1 + numpudus2 + numpudus3)  puduimg = puduimg3
+        if (i <= numpudus1 + numpudus2)  puduimg = puduimg2
+        if (i <= numpudus1)  puduimg = puduimg1
 
         
         // Alejarse del mouse
-        const dx = pudu.x - mouse.x;
-        const dy = pudu.y - mouse.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        const dx = pudu.x - mouse.x
+        const dy = pudu.y - mouse.y
+        const distance = Math.sqrt(dx * dx + dy * dy)
         if (distance < maxDistance) {
           pudu.vx += (velfact * dx)
           pudu.vy += (velfact * dy)
@@ -153,9 +167,11 @@
 
     }
 
-    animate();
+    animate()
   </script>
 </body>
 </html>
 
-<!--- Gracias por visitar. Que el gran pudú te acompañe siempre. <3 -->
+<!--- Este lugar no tiene propósito. No espero lograr nada fuera de a lo mejor sacarle una sonrisa a alguien.  -->
+<!--- Gracias por tomarte el tiempo de visitar y mirar esta tontera y mirar el código.                         -->
+<!--- Que el gran pudú en los cielos te acompañe siempre. <3                                                   -->
