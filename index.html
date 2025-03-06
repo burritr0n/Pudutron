@@ -90,6 +90,8 @@
 
     const maxvarrand = 2.7        // máxima variación aleatoria en dirección
     const randofacto = 2.7        // variación aleatoria en dirección
+    const pudualadobonus = 0.45     // qué tanto más se mueve el pudú alado
+
 
     const factdistancia = 0.17     // qué tanto pesa la distancia del centro en la velocidad
     const factdistpudualado = 0.67 // qué tanto pesa la distancia del pudú alado en la velocidad
@@ -268,6 +270,10 @@
         pudu.vx += ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * distanciadelcentro/(distmax/2)) * factdistancia) +  ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * (distanciadelpudualado/distmax)) * factdistpudualado) + (Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)*(1-factdistancia - factdistpudualado))
         pudu.vy += ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * distanciadelcentro/(distmax/2)) * factdistancia) +  ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * (distanciadelpudualado/distmax)) * factdistpudualado) + (Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)*(1-factdistancia - factdistpudualado))
 
+        if (i == 0) {
+          pudu.vx += (Math.random() -0.5) * randofacto * pudualadobonus
+          pudu.vy += (Math.random() -0.5) * randofacto * pudualadobonus
+        }
 
         // Dibujar cada pudú
         ctx.drawImage(puduimg, pudu.x - (pudusize / 2), pudu.y - (pudusize / 2), pudusize, pudusize)
