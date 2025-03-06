@@ -39,6 +39,7 @@
   <img src="img/pud7.png" id="pud7">
   <img src="img/pud8.png" id="pud8">
   <img src="img/pud9.png" id="pud9">
+  <img src="img/pudualado.png" id="pudualado">
 
   <img src="img/ovrlay.png" id="ovrlay">
   <img src="img/pudutopia.png" id="pudutopia">
@@ -55,6 +56,7 @@
     const puduimg7 = document.getElementById('pud7')
     const puduimg8 = document.getElementById('pud8')
     const puduimg9 = document.getElementById('pud9')
+    const pudualado = document.getElementById('pudualado')
 
     const overlay = document.getElementById('ovrlay')
     const pudutopia = document.getElementById('pudutopia')
@@ -69,25 +71,28 @@
       height = canvas.height = window.innerHeight
     });
 
-    const numpudus1 = 17          // Número de pudúes de perfil
-    const numpudus2 = 15          // Número de pudúes con flores
-    const numpudus3 = 15          // Número de posters de pudúes
-    const numpudus4 = 17          // Número de pudúes acurrucados
-    const numpudus5 = 10           // Número de pudúes dibujados
-    const numpudus6 = 10           // Número de carteles de cruce de pudú
-    const numpudus7 = 15          // Número de pudúes parados de lado
-    const numpudus8 = 15          // Número de pudúes comiendo hojitas
-    const numpudus9 = 15          // Número de pudúes parados de frente
+    const numpudus1 = 17 * Math.random()          // Número de pudúes de perfil
+    const numpudus2 = 20 * Math.random()            // Número de pudúes con flores
+    const numpudus3 = 17 * Math.random()            // Número de posters de pudúes
+    const numpudus4 = 20 * Math.random()            // Número de pudúes acurrucados
+    const numpudus5 = 17 * Math.random()             // Número de pudúes dibujados
+    const numpudus6 = 7 * Math.random()             // Número de carteles de cruce de pudú
+    const numpudus7 = 20 * Math.random()            // Número de pudúes parados de lado
+    const numpudus8 = 20 * Math.random()            // Número de pudúes comiendo hojitas
+    const numpudus9 = 20 * Math.random()            // Número de pudúes parados de frente
 
-    const imgSize = 97             // Tamaño de los pudúes.
+    const imgSize = 75             // Tamaño de los pudúes.
     const tamanobanner = 1.5       // Altura del banner, en pudúes
-    const distanciademouse = 0.975  // Distancia para alejarse del mouse, en pudúes
+    const distanciademouse = 0.85  // Distancia para alejarse del mouse, en pudúes
     
-    const deCeletation = 0.015    // Factor de desaceleración.
-    const velfact = 0.02          // Velocidad de alejamiento del mouse
+    const deCeletation = 0.018    // Factor de desaceleración.
+    const velfact = 0.014          // Velocidad de alejamiento del mouse
 
-    const maxvarrand = 0.9        // máxima variación aleatoria en dirección
-    const randofacto = 0.9        // variación aleatoria en dirección 
+    const maxvarrand = 2.7        // máxima variación aleatoria en dirección
+    const randofacto = 2.7        // variación aleatoria en dirección
+
+    const factdistancia = 0.17     // qué tanto pesa la distancia del centro en la velocidad
+    const factdistpudualado = 0.67 // qué tanto pesa la distancia del pudú alado en la velocidad
     
     
 
@@ -138,7 +143,7 @@
     "ahora nos pudubicas",
     "tenemos pudúes",
     "se arrancan del mouse?",
-    "el avant-garde pudú",
+    "el avant guarde pudú",
     "sabes que quieres pudúes",
     "para tus necesidades pudú",
     "todavía nos quedan pudúes",
@@ -195,11 +200,35 @@
         pudu.vy *= (1.0 - deCeletation)
 
         // Rebotar contra paredes
-        if (pudu.x < 0 || pudu.x > width) pudu.vx *= -0.95
-        if (pudu.y < 0 || pudu.y > height) pudu.vy *= -0.95
-        
+        if (pudu.x < 0) { 
+          pudu.x = 0 
+          pudu.vx *= -0.95 
+        }
+
+        if (pudu.x > width) { 
+          pudu.x = width
+          pudu.vx *= -0.95 
+        }
+
+        if (pudu.y < 0) {
+          pudu.y = 0
+          pudu.vy *= -0.95
+        }
+
+        if (pudu.y > height) {
+          pudu.y = height
+          pudu.vy *= -0.95
+        }
+
+        // No quedar atrapado en paredes
+        if (pudu.x == 0) pudu.vx += maxvarrand
+        if (pudu.y == 0) pudu.vy += maxvarrand
+        if (pudu.x == width) pudu.vx -= maxvarrand
+        if (pudu.y == height) pudu.vy -= maxvarrand
+
         // Qué pudú dibujar
         puduimg = puduimg9;
+        pudusize = imgSize
         if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7 + numpudus8)  puduimg = puduimg8
         if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7)  puduimg = puduimg7
         if (i <= numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6)  puduimg = puduimg6
@@ -208,6 +237,8 @@
         if (i <= numpudus1 + numpudus2 + numpudus3)  puduimg = puduimg3
         if (i <= numpudus1 + numpudus2)  puduimg = puduimg2
         if (i <= numpudus1)  puduimg = puduimg1
+        if (i == 0) puduimg = pudualado
+        if (i == 0) pudusize = imgSize * 2.1
 
         
         // Alejarse del mouse
@@ -219,13 +250,27 @@
           pudu.vy += (velfact * dy)
         }
         
+        // calcular distancia del centro
+        const dxc = pudu.x - canvas.width/2
+        const dyc = pudu.y - canvas.height/2
+        const distanciadelcentro = Math.sqrt(dxc * dxc + dyc * dyc) + 1.0
+
+        // calcular distancia del pudú alado
+        const dxpa = pudu.x - pudus[0].x
+        const dypa = pudu.y - pudus[0].y
+        const distanciadelpudualado = Math.sqrt(dxpa * dxpa + dypa * dypa) + 1.0
+
+        //calcular distancia máxima
+        const distmax = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) + 1.0
+
+        // Agregar mnovimiento aleatorio y dependiente de distancia de centro y pudú alado
         const minvarrand = -1.0 * maxvarrand
-        
-        pudu.vx += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)
-        pudu.vy += Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)
+        pudu.vx += ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * distanciadelcentro/(distmax/2)) * factdistancia) +  ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * (distanciadelpudualado/distmax)) * factdistpudualado) + (Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)*(1-factdistancia - factdistpudualado))
+        pudu.vy += ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * distanciadelcentro/(distmax/2)) * factdistancia) +  ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * (distanciadelpudualado/distmax)) * factdistpudualado) + (Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)*(1-factdistancia - factdistpudualado))
+
 
         // Dibujar cada pudú
-        ctx.drawImage(puduimg, pudu.x - (imgSize / 2), pudu.y - (imgSize / 2), imgSize, imgSize)
+        ctx.drawImage(puduimg, pudu.x - (pudusize / 2), pudu.y - (pudusize / 2), pudusize, pudusize)
       }
 
       requestAnimationFrame(animate);
@@ -256,5 +301,5 @@
 
 
 <!--- Este lugar no tiene propósito. No espero lograr nada fuera de a lo mejor sacarle una sonrisa a alguien.  -->
-<!--- Gracias por tomarte el tiempo de visitar esta tontera y mirar el código.                                 -->
+<!--- Gracias por tomarte el tiempo de visitar y mirar esta tontera y mirar el código.                         -->
 <!--- Que el gran pudú en los cielos te acompañe siempre. <3                                                   -->
