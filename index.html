@@ -71,18 +71,18 @@
       height = canvas.height = window.innerHeight
     });
 
-    const numpudus1 = 17 * Math.random()          // Número de pudúes de perfil
-    const numpudus2 = 20 * Math.random()            // Número de pudúes con flores
-    const numpudus3 = 17 * Math.random()            // Número de posters de pudúes
-    const numpudus4 = 20 * Math.random()            // Número de pudúes acurrucados
-    const numpudus5 = 17 * Math.random()             // Número de pudúes dibujados
+    const numpudus1 = 7 * Math.random()          // Número de pudúes de perfil
+    const numpudus2 = 15 * Math.random()            // Número de pudúes con flores
+    const numpudus3 = 7 * Math.random()            // Número de posters de pudúes
+    const numpudus4 = 10 * Math.random()            // Número de pudúes acurrucados
+    const numpudus5 = 7 * Math.random()             // Número de pudúes dibujados
     const numpudus6 = 7 * Math.random()             // Número de carteles de cruce de pudú
-    const numpudus7 = 20 * Math.random()            // Número de pudúes parados de lado
-    const numpudus8 = 20 * Math.random()            // Número de pudúes comiendo hojitas
-    const numpudus9 = 20 * Math.random()            // Número de pudúes parados de frente
+    const numpudus7 = 10 * Math.random()            // Número de pudúes parados de lado
+    const numpudus8 = 10 * Math.random()            // Número de pudúes comiendo hojitas
+    const numpudus9 = 10 * Math.random()            // Número de pudúes parados de frente
 
     const imgSize = 95             // Tamaño de los pudúes.
-    const tamanobanner = 1.5       // Altura del banner, en pudúes
+    const tamanobanner = 0.2       // Altura del banner, en pantallas
     const distanciademouse = 0.95  // Distancia para alejarse del mouse, en pudúes
     
     const deCeletation = 0.018    // Factor de desaceleración.
@@ -90,17 +90,18 @@
 
     const maxvarrand = 2.7        // máxima variación aleatoria en dirección
     const randofacto = 2.7        // variación aleatoria en dirección
-    const pudualadobonus = 0.45     // qué tanto más se mueve el pudú alado
+
+    const pudualadobonus = 0.55     // qué tanto más se mueve el pudú alado
 
 
-    const factdistancia = 0.17     // qué tanto pesa la distancia del centro en la velocidad
-    const factdistpudualado = 0.67 // qué tanto pesa la distancia del pudú alado en la velocidad
+    const factdistancia = 0.11     // qué tanto pesa la distancia del centro en la velocidad
+    const factdistpudualado = 0.87 // qué tanto pesa la distancia del pudú alado en la velocidad
     
     
 
     const maxDistance = imgSize * distanciademouse
-    const numpudus = numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7 + numpudus8 + numpudus9
-    const alturabanner = imgSize * tamanobanner
+    const numpudus = Math.floor(numpudus1 + numpudus2 + numpudus3 + numpudus4 + numpudus5 + numpudus6 + numpudus7 + numpudus8 + numpudus9)
+    const alturabanner = canvas.height * tamanobanner
     const anchobanner = alturabanner * 3.5
     const pudus = []
 
@@ -254,17 +255,17 @@
           } 
         }
 
-        // calcular distancia del centro
+        // Calcular distancia del centro
         const dxc = pudu.x - canvas.width/2
         const dyc = pudu.y - canvas.height/2
         const distanciadelcentro = Math.sqrt(dxc * dxc + dyc * dyc) + 1.0
 
-        // calcular distancia del pudú alado
+        // Calcular distancia del pudú alado
         const dxpa = pudu.x - pudus[0].x
         const dypa = pudu.y - pudus[0].y
         const distanciadelpudualado = Math.sqrt(dxpa * dxpa + dypa * dypa) + 1.0
 
-        //calcular distancia máxima
+        // Calcular distancia máxima
         const distmax = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) + 1.0
 
         // Agregar mnovimiento aleatorio y dependiente de distancia de centro y pudú alado
@@ -272,9 +273,10 @@
         pudu.vx += ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * distanciadelcentro/(distmax/2)) * factdistancia) +  ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * (distanciadelpudualado/distmax)) * factdistpudualado) + (Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)*(1-factdistancia - factdistpudualado))
         pudu.vy += ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * distanciadelcentro/(distmax/2)) * factdistancia) +  ((Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand) * (distanciadelpudualado/distmax)) * factdistpudualado) + (Math.min(Math.max((Math.random() - 0.5)*randofacto,minvarrand),maxvarrand)*(1-factdistancia - factdistpudualado))
 
-        if (i == 0) {
+        // Agregar movimiento extra del pudú alado
+        if (pudu == pudus[0]) {
           pudu.vx += (Math.random() -0.5) * randofacto * pudualadobonus
-          pudu.vy += (Math.random() -0.5) * randofacto * pudualadobonus
+          pudu.vy += (Math.random() -0.5) * randofacto * pudualadobonus - pudualadobonus/35
         }
 
         // Dibujar cada pudú
@@ -293,12 +295,23 @@
       const altura_y = (canvas.height - alturabanner)/4 + alturabanner + 15
       const ancho_x = (canvas.width - anchobanner)/2 + 55
 
+      // Escribe el testo aleatorio
       ctx.font = "bold italic 30px Tahoma";
       ctx.fillStyle = "yellow";
       ctx.fillText(txt, ancho_x, altura_y)
       ctx.strokeStyle = "black"
       ctx.lineWidth = 2
       ctx.strokeText(txt, ancho_x, altura_y)
+
+      // Escribe el número de pudúes
+      let numpudustxto = `${numpudus} pudúes`
+      ctx.font = "bold 10px Tahoma";
+      ctx.fillStyle = "yellow";
+      ctx.fillText(numpudustxto, canvas.width - 75, canvas.height - 10 )
+
+
+
+
     }
     animate()
 
