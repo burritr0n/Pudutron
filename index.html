@@ -244,14 +244,16 @@
 
         
         // Alejarse del mouse
-        const dx = pudu.x - mouse.x
-        const dy = pudu.y - mouse.y
-        const distance = Math.sqrt(dx * dx + dy * dy)
-        if (distance < maxDistance) {
-          pudu.vx += (velfact * dx)
-          pudu.vy += (velfact * dy)
+        if (pudu != pudus[0]) {
+          const dx = pudu.x - mouse.x
+          const dy = pudu.y - mouse.y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+          if (distance < maxDistance) {
+            pudu.vx += (velfact * dx)
+            pudu.vy += (velfact * dy)
+          } 
         }
-        
+
         // calcular distancia del centro
         const dxc = pudu.x - canvas.width/2
         const dyc = pudu.y - canvas.height/2
