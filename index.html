@@ -69,19 +69,19 @@
       height = canvas.height = window.innerHeight
     });
 
-    const numpudus1 = 15          // Número de pudúes de perfil
-    const numpudus2 = 12          // Número de pudúes con flores
-    const numpudus3 = 12          // Número de posters de pudúes
-    const numpudus4 = 15          // Número de pudúes acurrucados
-    const numpudus5 = 5           // Número de pudúes dibujados
-    const numpudus6 = 5           // Número de carteles de cruce de pudú
+    const numpudus1 = 17          // Número de pudúes de perfil
+    const numpudus2 = 15          // Número de pudúes con flores
+    const numpudus3 = 15          // Número de posters de pudúes
+    const numpudus4 = 17          // Número de pudúes acurrucados
+    const numpudus5 = 10           // Número de pudúes dibujados
+    const numpudus6 = 10           // Número de carteles de cruce de pudú
     const numpudus7 = 15          // Número de pudúes parados de lado
-    const numpudus8 = 10          // Número de pudúes comiendo hojitas
+    const numpudus8 = 15          // Número de pudúes comiendo hojitas
     const numpudus9 = 15          // Número de pudúes parados de frente
 
-    const imgSize = 95             // Tamaño de los pudúes.
+    const imgSize = 97             // Tamaño de los pudúes.
     const tamanobanner = 1.5       // Altura del banner, en pudúes
-    const distanciademouse = 0.95  // Distancia para alejarse del mouse, en pudúes
+    const distanciademouse = 0.975  // Distancia para alejarse del mouse, en pudúes
     
     const deCeletation = 0.008    // Factor de desaceleración.
     const velfact = 0.02          // Velocidad de alejamiento del mouse
@@ -97,7 +97,69 @@
     const anchobanner = alturabanner * 3.5
     const pudus = []
 
+    var mnsaje = [
+    'puduría ser peor!', 
+    "poder pudú!",
+    "míralos correr!",
+    "100% pudú!",
+    "ahora con más pudúes!",
+    "15% más pudú!",
+    "chico pero potente!",
+    "pronto en mapudungun!",
+    "puduración prolongada!",
+    "alguna pududa?",
+    "sin grasas saturadas!",
+    "pudúes 100% renovables!",
+    "altamente recomendado!",
+    "aclamado por la crítica!",
+    "el hogar del pudú!",
+    "mejores que la competencia!",
+    "khé",
+    "no tiene que tener sentido!",
+    "pudúes premium",
+    "te queda alguna pududa?",
+    "que el pudú esté contigo",
+    "nuevo y mejorado!",
+    "nuevas variedades!",
+    "puduniveralmente amado",
+    "no aceptes imitaciones",
+    "tu centro pudurbano",
+    "pudúnico",
+    "pudusuarios 100% satisfechos!",
+    "cuántos puedes contar?",
+    "porque pudú",
+    "sólo disfruta",
+    "tu dosis de puduficación diaria",
+    "sigue tu pudú interior",
+    "libre de sentido común",
+    "puduterapéutico",
+    "mereces más pudú",
+    "N° 1 en las pudurnas!",
+    "ahora nos pudubicas",
+    "tenemos pudúes",
+    "se arrancan del mouse?",
+    "el avant guarde pudú",
+    "sabes que quieres pudúes",
+    "para tus necesidades pudú",
+    "todavía nos quedan pudúes",
+    "aún con stock de pudú",
+    "bases ante notario",
+    "hoy con 25% de descuento",
+    "aceptamos cryptoquesitos!",
+    "edición limitada",
+    "más prendido que tele de conserje",
+    "atrápalos a todos",
+    "colección primavera verano",
+    "temporada baja",
+    "hora pudunta",
+    "Mejor que ChatGPT",
+    "Ahora en blockchain",
+    "Ahora con IA",
+    "Porque por qué no?"
+    ]; 
 
+    let number = Math.floor(Math.random()*mnsaje.length); 
+    const txt = mnsaje[number];
 
     // Crear cada pudú
     for (let i = 0; i < numpudus; i++) {
@@ -172,12 +234,25 @@
       ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height)
       ctx.drawImage(pudutopia, (canvas.width - anchobanner)/2, (canvas.height - alturabanner)/4, anchobanner, alturabanner)
 
-    }
 
+
+
+      const altura_y = (canvas.height - alturabanner)/4 + alturabanner + 15
+      const ancho_x = (canvas.width - anchobanner)/2 + 55
+
+      ctx.font = "bold italic 30px Tahoma";
+      ctx.fillStyle = "yellow";
+      ctx.fillText(txt, ancho_x, altura_y)
+      ctx.strokeStyle = "black"
+      ctx.lineWidth = 2
+      ctx.strokeText(txt, ancho_x, altura_y)
+    }
     animate()
+
   </script>
 </body>
 </html>
+
 
 
 <!--- Este lugar no tiene propósito. No espero lograr nada fuera de a lo mejor sacarle una sonrisa a alguien.  -->
